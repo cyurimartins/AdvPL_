@@ -1,0 +1,177 @@
+#include "rwmake.ch"
+#include "topconn.ch"
+
+/////////////////////////////////////////////////////////////////////////////////
+// Funcao:    CRYS0068.PRW                                                     	//
+// Autor:     YuriMartins                                                     	//
+// Data:      20/03/2018                                                   		//
+// Descricao: Pensão Alimenticia                                   				//
+/////////////////////////////////////////////////////////////////////////////////
+
+User Function CRYS0068()
+
+CRYS68A()
+
+Return
+
+Static Function CRYS68A()
+
+// CRIANDO TABELA 
+
+	/*Local aRegs	:= {{"RA_NOME"   	,"C",40,0},;
+					{"M8_MAT"       ,"C",06,0},;
+					{"M8_MES"	   	,"C",02,0},;
+					{"M8_ANO"		,"C",04,0},;
+					{"M8_TIPOREN"  	,"C",01,0},;
+					{"M8_VALOR" 	,"N",17,2},;
+					{"M8_DTPGTO"	,"C",08,0},;
+					{"RQ_CIC"	    ,"C",11,0},;
+					{"RQ_NOME"   	,"C",40,0}}*/
+					
+	//local _cQrySRV
+	//Local cStatement
+	
+	//Pegar o código do usuário do momento
+	Private aArray 		:= PswRet()
+	Private cUser 		:= aArray[1][1]
+	
+	Private cOptions	:= "1;0;1;CRYS0068"
+	Private cParams     := ""
+//	Private cRpt		:= "CRYS0068"
+	Private lWaitRun	:= .F.
+//	Private lRunOnServer:= .T.
+	Private cFile		:= "CRYS0068"
+	Private cPerg		:= PADR("CRYS0068",10)
+	//Private _nQtd		:= 0	
+		
+	ValidPerg()
+	If !Pergunte(cPerg,.T.)
+		Return
+	Endif	
+
+//VERIFICA SE EXISTIR TABELA
+	//If TCCanOpen("CRYS0068")
+	//	_cDelCRY := "DROP TABLE CRYS0068"
+	//	If (TCSQLExec(_cDelCRY) < 0)
+	//		Return MsgStop("TCSQLEr ror() " + TCSQLError())
+	//	EndIf
+	//EndIf 
+		
+// CRIANDO TABELA
+	//DbCreate("CRYS0068",aRegs,"TOPCONN")
+	//dbUseArea(.T., 'TOPCONN', "CRYS0068",'CRYS68', .T., .F.)
+	
+
+//Apaga os registros do usuário XXX
+_cQryALL1 := " DELETE FROM CRYS0068 WHERE USUARIO = '" + cUser + "' "
+//executa a Query
+TCSQLExec(_cQryALL1)
+	    
+//Criando Tabela temporaria e inserindo dados
+	If TCCanOpen("CRYS0068")
+			_cQryALL :=	"INSERT INTO CRYS0068 "
+	else
+			_cQryALL := "SELECT * INTO CRYS0068 FROM ( "			
+	endif
+	_cQryALL += "SELECT '" + cUser + "' USUARIO, RA_NOME, M8_MAT, M8_MES, M8_ANO, M8_TIPOREN, M8_VALOR, M8_DTPGTO, RQ_CIC, RQ_NOME "  
+	_cQryALL += "FROM " + RetSqlName("SM8") + "  M8 "
+	_cQryALL += "INNER JOIN " + RetSqlName("SRQ") + " RQ ON RQ.RQ_FILIAL = M8.M8_FILIAL AND RQ_MAT = M8_MAT AND RQ_SEQUENC = '01' "
+	_cQryALL += "INNER JOIN " + RetSqlName("SRA") + " RA ON RA.RA_MAT = M8_MAT "
+	_cQryALL += "WHERE M8.D_E_L_E_T_ = ' '"
+	_cQryALL += "AND M8.M8_ANO ='" + MV_PAR01 + "'  "
+	_cQryALL += "AND M8.M8_CODRET = '0561' "
+	_cQryALL += "AND M8.M8_FILIAL = '01'
+
+	If TCCanOpen("CRYS0068")
+		_cQryALL +=	" "
+	else
+		_cQryALL += " ) TAB "	
+	endif
+
+//EXECUTANDO A QUERY
+	//_cQryALL:= ChangeQuery(_cQryALL)
+	TCSQLExec(_cQryALL)
+	
+//CRIANDO AREA COM DADOS DO RESULTADO DA QUERY ACIMA	
+	//dbUseArea(.T., 'TOPCONN', TCGenQry(,,_cQryALL),'SRAALL', .F., .T.)	
+	
+//PROCESSANDO OS DADOS, PEGANDO O RESULTADO E COLOCANDO NA TABELA QUE FOI CRIADA
+	Processa( {|| ProcCRYS68() }, "Impressão...","",.T.)
+
+Return 
+
+******************************
+Static Function ProcCRYS68()
+******************************	
+//SELECIONANDO A AREA DO RESULTADO
+//DbSelectArea("SRAALL")
+// DBCreateIndex("\SRAALL.cdx","RA_CIC+RA_DEMISSA",{ || RA_CIC+RA_DEMISSA },.T.)
+
+//PONTEIRO NO INICIO
+//DbGoTop()
+
+//ProcRegua(_nQtd)
+
+//VERIFICA ENQUANTO NAO FOR FINAL DO ARQUIVO
+/*While !Eof()	
+	DbSelectArea("CRYS68")	
+	RecLock("CRYS68",.T.)
+		CRYS68->RA_NOME 	:= SRAALL->RA_NOME
+		CRYS68->M8_MAT	    := SRAALL->M8_MAT
+		CRYS68->M8_MES  	:= SRAALL->M8_MES
+		CRYS68->M8_ANO  	:= SRAALL->M8_ANO
+		CRYS68->M8_TIPOREN	:= SRAALL->M8_TIPOREN
+		CRYS68->M8_VALOR  	:= SRAALL->M8_VALOR
+		CRYS68->M8_DTPGTO  	:= SRAALL->M8_DTPGTO
+		CRYS68->RQ_CIC  	:= SRAALL->RQ_CIC
+		CRYS68->RQ_NOME  	:= SRAALL->RQ_NOME
+						
+	MsUnlock()
+	
+	DbSelectArea("SRAALL")
+	DbSkip()
+	
+ENDDO	*/
+
+//Passagem de parametros
+private cParams := cEmpAnt + ";" + cFilAnt + ";" + cUser
+	
+//CallCrys(cRpt,cParams,cOptions,lWaitRun)
+CallCrys (cFile,cParams,cOptions,lWaitRun)
+//CallCrys (cFile,,cOptions,,,.T.,)
+
+
+
+
+//CRYS68->(DbCloseArea())
+//SRAALL->(DbCloseArea())     
+Return	
+
+*-------------------------*
+Static Function ValidPerg()
+*-------------------------*
+Local _sAlias := Alias()
+Local aRegs := {}
+Local i,j
+Private aRegs       := {}
+
+// cria perguntas no SX1
+
+DbSelectArea("SX1")
+DbSetOrder(1)
+
+AADD(aRegs,{cPerg,"01","Ano:"        ,"","","MV_CH1","C",04,0,0,"G","","MV_PAR01","","","","","","","","","","","","","","","","","","","","","","","" ,"","","","","","",""})
+
+For i:=1 to Len(aRegs)
+	If !dbSeek(cPerg+aRegs[i,2])
+		RecLock("SX1",.T.)
+		For j:=1 to FCount()
+			If j <= Len(aRegs[i])
+				FieldPut(j,aRegs[i,j])
+			Endif
+		Next
+		MsUnlock()
+	Endif
+Next
+DbSelectArea(_sAlias)
+Return()			    
