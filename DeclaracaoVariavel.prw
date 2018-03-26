@@ -3,7 +3,7 @@
 
 /*/{Protheus.doc} zVariaveis
 Exemplo de declaração de variáveis
-@author EXEMPLO
+@author Aula AdvPL - Terminal da informação https://www.youtube.com/channel/UCiSSA_yn20tEQdEbfo-yBKw/featured
 @since xx/xx/xxxx
 @version 1.0
 	@example
