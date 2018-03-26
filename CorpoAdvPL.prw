@@ -40,6 +40,8 @@ Exemplo de corpo de programa em AdvPL
 /*/
 
 User Function zCorpo()
+
+	//Declaracao de variaveis
 	Local aArea := GetArea()
 	Local cHora := Time()
 	
