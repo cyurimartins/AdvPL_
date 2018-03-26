@@ -32,7 +32,7 @@ Return {Variável Retorno}
 
 /*/{Protheus.doc} zCorpo
 Exemplo de corpo de programa em AdvPL
-@author Atilio
+@author Aula AdvPL - Terminal da informação https://www.youtube.com/channel/UCiSSA_yn20tEQdEbfo-yBKw/featured
 @since 11/10/2015
 @version 1.0
 	@example
