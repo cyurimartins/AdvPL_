@@ -6,7 +6,7 @@ Static cTesteSta := ''
 
 /*/{Protheus.doc} zEscopo
 Função exemplo de escopo de variáveis
-@author EXEMPLO
+@author Aula AdvPL - Terminal da informação https://www.youtube.com/channel/UCiSSA_yn20tEQdEbfo-yBKw/featured
 @since 25/03/2018
 @version 1.0
 	@example
