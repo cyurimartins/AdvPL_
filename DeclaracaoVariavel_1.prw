@@ -28,8 +28,8 @@ User Function zEscopo()
 	
 	//Variáveis públicas, IPC: Importante declarar uma variável public com dois __ (underline) antes
   //IPC: sempre evitar usar variaveis publicas, sempre como ultimo recurso
- 	Public __cTeste  := "Daniel"
-	Public __cTeste2 := "Atilio"
+ 	Public __cTeste  := "PROFESSOR"
+	Public __cTeste2 := "ALUNO"
 	
 	//Chamando outra rotina para demonstrar o escopo de variáveis
   //O @ significa passar variável por referencia e sempre altera a variável local
