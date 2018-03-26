@@ -19,7 +19,7 @@ User Function zVariaveis()
 	Local cTexto	:= "Terminal de Informação"
 	Local oObjeto	:= TFont():New("Tahoma")
 	Local xInfo	:= 0
-	Local aDados	:= {"Daniel", "Atilio", dData}
+	Local aDados	:= {"ALUNO", "PROFESSOR", dData}
 	Local bBloco1	:= {||			nValor := 1,;
 									Alert("Valor é igual a "+cValToChar(nValor))}
 	Local bBloco2	:= {|nValor|	nValor += 2,;
