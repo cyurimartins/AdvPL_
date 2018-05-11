@@ -8,11 +8,11 @@
 
 User Function CRYS0033()
 
-	Local aCRYS33			    := {}
-	Local _cVerba 			  := ""                        
+	Local aCRYS33		:= {}
+	Local _cVerba 		:= ""                        
 	
-	Private cPerg 			  := PADR("CRYS0033", 10)
-	Private aRegs 			  := {}
+	Private cPerg 		:= PADR("CRYS0033", 10)
+	Private aRegs 		:= {}
 	Private cOptions    	:= "1;0;1;CRYS0033"
 	Private cParams      	:= ""
 	Private cRpt         	:= "CRYS0033"
