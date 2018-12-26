@@ -1,4 +1,4 @@
-#INCLUDE 'PROTHEUS.CH'
+#include "PROTHEUS.CH"
 #include "rwmake.ch"
 #include "topconn.ch"
 
